@@ -21,10 +21,17 @@ public final class Modular {
         return reduced - q;
     }
 
-    public int scalarProduct(int[] a, int[] b) {
-        if(a.length != b.length) {
-            throw new IllegalArgumentException("Different lengths: " + a.length + " and " + b.length);
+    public int[] addVectors(int[] a, int[] b) {
+        requireSameLength(a, b);
+        int[] res = new int[a.length];
+        for(int i = 0; i < a.length; i++) {
+            res[i] = reduce(a[i] + b[i]);
         }
+        return res;
+    }
+
+    public int scalarProduct(int[] a, int[] b) {
+        requireSameLength(a, b);
         long res = 0;
         for(int i = 0; i < a.length; i++) {
             res += ((long) a[i]) * b[i];
@@ -39,6 +46,12 @@ public final class Modular {
             res[i] = scalarProduct(A[i], v);
         }
         return res;
+    }
+
+    private void requireSameLength(int[] a, int[] b) {
+        if(a.length != b.length) {
+            throw new IllegalArgumentException("Different lengths: " + a.length + " and " + b.length);
+        }
     }
 
 }
